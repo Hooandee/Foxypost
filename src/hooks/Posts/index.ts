@@ -9,6 +9,12 @@ import {
   fetchingPostDetails,
   successFetchingPostDetails,
   errorFetchingPostDetails,
+  postingNewPost,
+  postingNewPostSuccess,
+  postingNewPostFail,
+  deletingPost,
+  deletingPostSuccess,
+  deletingPostFail,
 } from "./actions";
 
 const usePostsInfoApi = () => {
@@ -55,7 +61,111 @@ const usePostsInfoApi = () => {
     [dispatch]
   );
 
-  return [getPostsInfo, getPostDetails];
+  const postNewPost = useCallback(
+    async (
+      title: string,
+      content: string,
+      latitude: string,
+      longitude: string,
+      image_url: string
+    ) => {
+      dispatch(postingNewPost());
+      try {
+        const response = await fetch(
+          `https://wf-challenge-qpowg4766h.herokuapp.com/api/v1/posts`,
+          {
+            method: "POST",
+            body: JSON.stringify({
+              title,
+              content,
+              lat: latitude,
+              long: longitude,
+              image_url,
+            }),
+          }
+        )
+          .then((response) => {
+            return response.json();
+          })
+          .then((data) => {
+            return data;
+          });
+
+        dispatch(postingNewPostSuccess(response));
+
+        await getPostsInfo();
+      } catch (e) {
+        dispatch(postingNewPostFail(e));
+      }
+    },
+    [getPostsInfo, dispatch]
+  );
+
+  const deletePost = useCallback(
+    async (id: number) => {
+      dispatch(deletingPost());
+      try {
+        await fetch(
+          `https://wf-challenge-qpowg4766h.herokuapp.com/api/v1/posts/${id}`,
+          { method: "DELETE" }
+        )
+          .then((response) => {
+            return response.json();
+          })
+          .then((data) => {
+            return data;
+          });
+
+        dispatch(deletingPostSuccess());
+        await getPostsInfo();
+      } catch (e) {
+        dispatch(deletingPostFail(e));
+      }
+    },
+    [getPostsInfo, dispatch]
+  );
+
+  const updatePost = useCallback(
+    async (
+      id: number,
+      title: string,
+      content: string,
+      latitude: string,
+      longitude: string,
+      image_url: string
+    ) => {
+      dispatch(deletingPost());
+      try {
+        await fetch(
+          `https://wf-challenge-qpowg4766h.herokuapp.com/api/v1/posts/${id}`,
+          {
+            method: "PUT",
+            body: JSON.stringify({
+              title,
+              content,
+              lat: latitude,
+              long: longitude,
+              image_url,
+            }),
+          }
+        )
+          .then((response) => {
+            return response.json();
+          })
+          .then((data) => {
+            return data;
+          });
+
+        dispatch(deletingPostSuccess());
+        await getPostsInfo();
+      } catch (e) {
+        dispatch(deletingPostFail(e));
+      }
+    },
+    [getPostsInfo, dispatch]
+  );
+
+  return { getPostsInfo, getPostDetails, postNewPost, deletePost, updatePost };
 };
 
 export default usePostsInfoApi;

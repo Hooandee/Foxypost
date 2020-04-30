@@ -4,7 +4,7 @@ export const Container = styled.div`
   height: 100%;
   width: 100%;
   position: absolute;
-  background: radial-gradient(#000000e0, #0000008a);
+  background: rgba(0, 0, 0, 0.85);
   z-index: 100;
   display: flex;
   justify-content: center;

@@ -8,6 +8,18 @@ export enum Post {
   fetchingPostDetails = `postsActions/fetchingPostDetails`,
   fetchingPostDetailsSuccess = `postsActions/fetchingPostDetailsSuccess`,
   fetchingPostDetailsFail = `postsActions/fetchingPostDetailsFail`,
+
+  postingNewPost = `postsActions/postingNewPost`,
+  postingNewPostSuccess = `postsActions/postingNewPostSuccess`,
+  postingNewPostFail = `postsActions/postingNewPostFail`,
+
+  deletingPost = `postsActions/deletingPost`,
+  deletingPostSuccess = `postsActions/deletingPostSuccess`,
+  deletingPostFail = `postsActions/deletingPostFail`,
+
+  updatingPost = `postsActions/updatingPost`,
+  updatingPostSuccess = `postsActions/updatingPostSuccess`,
+  updatingPostFail = `postsActions/updatingPostFail`,
 }
 
 export type PostType = {
@@ -26,6 +38,18 @@ type PostPayload = {
   [Post.fetchingPostDetails]: undefined;
   [Post.fetchingPostDetailsSuccess]: PostType;
   [Post.fetchingPostDetailsFail]: string;
+
+  [Post.postingNewPost]: undefined;
+  [Post.postingNewPostSuccess]: PostType;
+  [Post.postingNewPostFail]: string;
+
+  [Post.deletingPost]: undefined;
+  [Post.deletingPostSuccess]: undefined;
+  [Post.deletingPostFail]: string;
+
+  [Post.updatingPost]: undefined;
+  [Post.updatingPostSuccess]: undefined;
+  [Post.updatingPostFail]: string;
 };
 
 export type PostsActions = ActionMap<PostPayload>[keyof ActionMap<PostPayload>];
@@ -60,4 +84,46 @@ export const errorFetchingPostDetails = (
 ): { type: Post.fetchingPostDetailsFail; payload: any } => ({
   payload: response,
   type: Post.fetchingPostDetailsFail,
+});
+
+export const postingNewPost = (): { type: Post.postingNewPost } => ({
+  type: Post.postingNewPost,
+});
+export const postingNewPostSuccess = (
+  response: PostType
+): { type: Post.postingNewPostSuccess; payload: any } => ({
+  payload: response,
+  type: Post.postingNewPostSuccess,
+});
+export const postingNewPostFail = (
+  response: string
+): { type: Post.postingNewPostFail; payload: any } => ({
+  payload: response,
+  type: Post.postingNewPostFail,
+});
+
+export const deletingPost = (): { type: Post.deletingPost } => ({
+  type: Post.deletingPost,
+});
+export const deletingPostSuccess = (): { type: Post.deletingPostSuccess } => ({
+  type: Post.deletingPostSuccess,
+});
+export const deletingPostFail = (
+  response: string
+): { type: Post.deletingPostFail; payload: any } => ({
+  payload: response,
+  type: Post.deletingPostFail,
+});
+
+export const updatingPost = (): { type: Post.updatingPost } => ({
+  type: Post.updatingPost,
+});
+export const updatingPostSuccess = (): { type: Post.updatingPostSuccess } => ({
+  type: Post.updatingPostSuccess,
+});
+export const updatingPostFail = (
+  response: string
+): { type: Post.updatingPostFail; payload: any } => ({
+  payload: response,
+  type: Post.updatingPostFail,
 });

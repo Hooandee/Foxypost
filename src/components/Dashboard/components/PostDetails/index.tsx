@@ -27,10 +27,11 @@ type Props = {
 
 export const Component = ({ id, handleClickOutside }: Props) => {
   const { state } = useContext(MainContext);
-  const [, getPostDetails] = usePostsInfoApi();
+  const { getPostDetails, deletePost } = usePostsInfoApi();
   const [alertIsShown, showAlert] = useState(false);
 
   useEffect(() => {
+    //@ts-ignore
     getPostDetails(id);
   }, [id, getPostDetails]);
 
@@ -41,7 +42,7 @@ export const Component = ({ id, handleClickOutside }: Props) => {
         {alertIsShown && (
           <AlertWarning
             handleCancelClick={() => showAlert(false)}
-            handleDeleteClick={handleClickOutside}
+            handleDeleteClick={() => deletePost(id)}
           />
         )}
         <DeleteButton onClick={() => showAlert(true)} />

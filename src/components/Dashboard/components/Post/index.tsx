@@ -1,10 +1,14 @@
 import React from "react";
 
-import { PostType } from "../../../../hooks/Posts/actions";
 import { useSpring } from "react-spring";
-import { Card } from "./styles";
+import { Card, EditButton } from "./styles";
 
-export const Component = (propsA: PostType) => {
+type Props = {
+  imageUrl: string;
+  onEditClickHandler: () => void;
+};
+
+export const Component = ({ imageUrl, onEditClickHandler }: Props) => {
   const calc = (x: number, y: number) => [
     -(y - 10) / 100,
     (x - 10) / 100,
@@ -25,8 +29,16 @@ export const Component = (propsA: PostType) => {
       onMouseDown={() => set({ xys: [0, 0, 0.95] })}
       style={{
         transform: props.xys.interpolate(trans),
-        backgroundImage: `url(${propsA.image_url})`,
+        backgroundImage: `url(${imageUrl})`,
       }}
-    />
+    >
+      <EditButton
+        onClick={(event) => {
+          event.preventDefault();
+          event.stopPropagation();
+          onEditClickHandler();
+        }}
+      />
+    </Card>
   );
 };

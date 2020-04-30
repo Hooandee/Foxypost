@@ -10,6 +10,7 @@ export const initialState: InitialStateType = {
   posts: {
     allPosts: [],
     postDetails: { title: "", content: "", image_url: "", lat: "", long: "" },
+    isLoading: false,
   },
 };
 
