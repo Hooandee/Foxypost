@@ -22,7 +22,7 @@ import { MainContext } from "../../../../hooks/index.reducer";
 
 type Props = {
   id: number;
-  handleClickOutside: (event: React.MouseEvent<HTMLButtonElement>) => void;
+  handleClickOutside: (event?: React.MouseEvent<HTMLButtonElement>) => void;
 };
 
 export const Component = ({ id, handleClickOutside }: Props) => {
@@ -35,14 +35,15 @@ export const Component = ({ id, handleClickOutside }: Props) => {
     getPostDetails(id);
   }, [id, getPostDetails]);
 
-  console.log(state?.posts?.postDetails);
   return (
     <Container>
       <Content>
         {alertIsShown && (
           <AlertWarning
             handleCancelClick={() => showAlert(false)}
-            handleDeleteClick={() => deletePost(id)}
+            handleDeleteClick={() =>
+              deletePost(id).then(() => handleClickOutside())
+            }
           />
         )}
         <DeleteButton onClick={() => showAlert(true)} />

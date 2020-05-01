@@ -9,8 +9,9 @@ import usePostsInfoApi from "../../hooks/Posts";
 
 export const Component = () => {
   const [selectedPostIndex, selectPost] = useState(-1);
+  const [isUpdating, setIsUpdating] = useState(false);
   const [detailsAreShown, showDetails] = useState(false);
-  const [newPostDialogIsShown, showNewPostDialog] = useState(false);
+  const [managePostDialogIsShown, setManagePostDialog] = useState(false);
 
   const { state } = useContext(MainContext);
 
@@ -25,37 +26,45 @@ export const Component = () => {
     <Container>
       {detailsAreShown && (
         <PostDetails
-          id={selectedPostIndex}
+          id={
+            state?.posts?.allPosts[selectedPostIndex]?.id || selectedPostIndex
+          }
           handleClickOutside={() => {
             showDetails(false);
             selectPost(-1);
           }}
         />
       )}
-      {newPostDialogIsShown && (
+      {managePostDialogIsShown && (
         <ManagePost
-          isUpdating={true}
+          isUpdating={isUpdating}
           handleClickOutside={() => {
-            showNewPostDialog(false);
+            setManagePostDialog(false);
+            setIsUpdating(false);
           }}
-          title="Sample"
+          post={state?.posts?.allPosts[selectedPostIndex]}
         />
       )}
-      <AddPost onClick={() => showNewPostDialog(!newPostDialogIsShown)}>
+      <AddPost onClick={() => setManagePostDialog(!managePostDialogIsShown)}>
         New Post
       </AddPost>
       <Grid>
         {state?.posts?.allPosts.map((post, index) => (
           <PostWrapper
             onClick={() => {
-              selectPost(index + 1);
+              selectPost(index);
               showDetails(true);
             }}
           >
             <Post
               key={index}
               imageUrl={post.image_url}
-              onEditClickHandler={() => showNewPostDialog(true)}
+              title={post.title}
+              onEditClickHandler={() => {
+                selectPost(index);
+                setManagePostDialog(true);
+                setIsUpdating(true);
+              }}
             />
           </PostWrapper>
         ))}

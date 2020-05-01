@@ -1,14 +1,15 @@
 import React from "react";
 
 import { useSpring } from "react-spring";
-import { Card, EditButton } from "./styles";
+import { Card, EditButton, Title, Overlay } from "./styles";
 
 type Props = {
   imageUrl: string;
+  title: string;
   onEditClickHandler: () => void;
 };
 
-export const Component = ({ imageUrl, onEditClickHandler }: Props) => {
+export const Component = ({ imageUrl, onEditClickHandler, title }: Props) => {
   const calc = (x: number, y: number) => [
     -(y - 10) / 100,
     (x - 10) / 100,
@@ -39,6 +40,9 @@ export const Component = ({ imageUrl, onEditClickHandler }: Props) => {
           onEditClickHandler();
         }}
       />
+      <Overlay>
+        <Title>{title}</Title>
+      </Overlay>
     </Card>
   );
 };

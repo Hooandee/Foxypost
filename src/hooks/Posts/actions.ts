@@ -23,11 +23,14 @@ export enum Post {
 }
 
 export type PostType = {
+  id?: number;
   content: string;
   title: string;
   lat: string;
   long: string;
   image_url: string;
+  created_at?: Date;
+  updated_at?: Date;
 };
 
 type PostPayload = {

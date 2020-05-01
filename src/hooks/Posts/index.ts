@@ -15,6 +15,9 @@ import {
   deletingPost,
   deletingPostSuccess,
   deletingPostFail,
+  updatingPost,
+  updatingPostSuccess,
+  updatingPostFail,
 } from "./actions";
 
 const usePostsInfoApi = () => {
@@ -65,9 +68,9 @@ const usePostsInfoApi = () => {
     async (
       title: string,
       content: string,
-      latitude: string,
-      longitude: string,
-      image_url: string
+      latitude?: string,
+      longitude?: string,
+      image_url?: string
     ) => {
       dispatch(postingNewPost());
       try {
@@ -75,6 +78,7 @@ const usePostsInfoApi = () => {
           `https://wf-challenge-qpowg4766h.herokuapp.com/api/v1/posts`,
           {
             method: "POST",
+            headers: { "Content-Type": "application/json" },
             body: JSON.stringify({
               title,
               content,
@@ -108,14 +112,7 @@ const usePostsInfoApi = () => {
         await fetch(
           `https://wf-challenge-qpowg4766h.herokuapp.com/api/v1/posts/${id}`,
           { method: "DELETE" }
-        )
-          .then((response) => {
-            return response.json();
-          })
-          .then((data) => {
-            return data;
-          });
-
+        );
         dispatch(deletingPostSuccess());
         await getPostsInfo();
       } catch (e) {
@@ -134,12 +131,13 @@ const usePostsInfoApi = () => {
       longitude: string,
       image_url: string
     ) => {
-      dispatch(deletingPost());
+      dispatch(updatingPost());
       try {
         await fetch(
           `https://wf-challenge-qpowg4766h.herokuapp.com/api/v1/posts/${id}`,
           {
             method: "PUT",
+            headers: { "Content-Type": "application/json" },
             body: JSON.stringify({
               title,
               content,
@@ -148,18 +146,12 @@ const usePostsInfoApi = () => {
               image_url,
             }),
           }
-        )
-          .then((response) => {
-            return response.json();
-          })
-          .then((data) => {
-            return data;
-          });
+        );
 
-        dispatch(deletingPostSuccess());
+        dispatch(updatingPostSuccess());
         await getPostsInfo();
       } catch (e) {
-        dispatch(deletingPostFail(e));
+        dispatch(updatingPostFail(e));
       }
     },
     [getPostsInfo, dispatch]

@@ -1,6 +1,7 @@
 import React, { useContext, useState } from "react";
 import usePostsInfoApi from "../../../../hooks/Posts";
 import { MainContext } from "../../../../hooks/index.reducer";
+import { PostType } from "../../../../hooks/Posts/actions";
 
 import {
   CancelButtonSmall,
@@ -18,46 +19,42 @@ import {
 } from "./styles";
 
 type Props = {
-  title?: string;
-  content?: string;
-  latitude?: string;
-  longitude?: string;
-  image_url?: string;
+  post?: PostType;
   isUpdating: boolean;
-  handleClickOutside: (event: React.MouseEvent<HTMLButtonElement>) => void;
+  handleClickOutside: (event?: React.MouseEvent<HTMLButtonElement>) => void;
 };
 
-export const Component = ({
-  title = "",
-  content,
-  latitude,
-  longitude,
-  image_url,
-  isUpdating,
-  handleClickOutside,
-}: Props) => {
+export const Component = ({ post, isUpdating, handleClickOutside }: Props) => {
   const { state } = useContext(MainContext);
-  const { postNewPost } = usePostsInfoApi();
-
-  console.log(state);
+  const { postNewPost, updatePost } = usePostsInfoApi();
 
   const [form, setForm] = useState({
-    title: isUpdating ? title : "",
-    content: "",
-    latitude: "",
-    longitude: "",
-    image_url: "",
+    id: isUpdating ? post?.id : -1,
+    title: isUpdating ? post?.title : "",
+    content: isUpdating ? post?.content : "",
+    lat: isUpdating ? post?.lat : "",
+    long: isUpdating ? post?.long : "",
+    image_url: isUpdating ? post?.image_url : "",
   });
 
   const handleSubmit = () => {
-    postNewPost(
-      // @ts-ignore
-      form.title,
-      form.content,
-      form.latitude,
-      form.longitude,
-      form.image_url
-    );
+    isUpdating
+      ? updatePost(
+          form.id || -1,
+          form.title || "",
+          form.content || "",
+          form.lat || "",
+          form.long || "",
+          form.image_url || ""
+        ).then(() => handleClickOutside())
+      : postNewPost(
+          // @ts-ignore
+          form.title,
+          form.content,
+          form.lat,
+          form.long,
+          form.image_url
+        ).then(() => handleClickOutside());
   };
 
   return (
@@ -73,7 +70,7 @@ export const Component = ({
         )}
         <CloseButton onClick={handleClickOutside} />
         <Title>
-          Add a new post{" "}
+          {isUpdating ? "Modify the post" : "Add a new post"}{" "}
           <span role="img" aria-label="newspaper emoji">
             📰
           </span>
@@ -82,7 +79,6 @@ export const Component = ({
           onSubmit={(e) => {
             e.preventDefault();
             e.stopPropagation();
-            handleSubmit();
           }}
         >
           <Fieldset>
@@ -116,34 +112,34 @@ export const Component = ({
           </Fieldset>
           <FieldsetVertical>
             <div>
-              <label htmlFor="latitude">
-                Latitude{" "}
+              <label htmlFor="lat">
+                lat{" "}
                 <span role="img" aria-label="globe emoji">
                   🌐
                 </span>
               </label>
               <input
                 name="latitude"
-                id="latitude"
-                value={form.latitude}
+                id="lat"
+                value={form.lat}
                 onChange={(event) => {
-                  setForm({ ...form, latitude: event.target.value });
+                  setForm({ ...form, lat: event.target.value });
                 }}
               ></input>
             </div>
             <div>
-              <label htmlFor="longitude">
-                Longitude{" "}
+              <label htmlFor="long">
+                long{" "}
                 <span role="img" aria-label="globe emoji">
                   🌐
                 </span>
               </label>
               <input
                 name="longitude"
-                id="longitude"
-                value={form.longitude}
+                id="long"
+                value={form.long}
                 onChange={(event) => {
-                  setForm({ ...form, longitude: event.target.value });
+                  setForm({ ...form, long: event.target.value });
                 }}
               ></input>
             </div>
@@ -154,12 +150,15 @@ export const Component = ({
               Cancel
             </CancelButtonSmall>
             <SaveButton
-              disabled={form.title.length <= 0 || form.content.length <= 0}
+              disabled={
+                (form.title?.length || 0) <= 0 ||
+                (form.content?.length || 0) <= 0
+              }
               onClick={() => {
                 handleSubmit();
               }}
             >
-              Save
+              {isUpdating ? "Update" : "Save"}
             </SaveButton>
           </Footer>
         </Form>

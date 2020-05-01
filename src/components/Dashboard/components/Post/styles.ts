@@ -43,3 +43,25 @@ export const EditButton = styled.button`
     box-shadow: 0px 30px 100px -10px rgba(255, 255, 255, 0.4);
   }
 `;
+
+export const Title = styled.h1`
+  font-size: 3em;
+  text-overflow: ellipsis;
+  color: white;
+  text-shadow: -2px 4px 8px #000000ad;
+  text-align: center;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+`;
+
+export const Overlay = styled.div`
+  height: 100%;
+  width: 100%;
+  padding: 30px;
+  border-radius: 5px;
+  background: radial-gradient(#0000006b, transparent);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+`;
