@@ -44,6 +44,19 @@ export const postReducer = (state: State, action: PostsActions) => {
     case Post.updatingPostFail:
       return { ...state, isLoading: false };
 
+    case Post.deselectPost:
+      return {
+        ...state,
+        postDetails: {
+          id: -1,
+          title: "",
+          content: "",
+          image_url: "",
+          lat: "",
+          long: "",
+          updated_at: "",
+        },
+      };
     default:
       return state;
   }

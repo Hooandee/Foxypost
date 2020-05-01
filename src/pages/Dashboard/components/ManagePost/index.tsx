@@ -1,8 +1,10 @@
 import React, { useContext, useState } from "react";
+
 import usePostsInfoApi from "../../../../hooks/Posts";
 import { MainContext } from "../../../../hooks/index.reducer";
 import { PostType } from "../../../../hooks/Posts/actions";
 
+import { LoadingContainer } from "../../../../components/LoadingContainer";
 import {
   CancelButtonSmall,
   Container,
@@ -12,10 +14,8 @@ import {
   FieldsetVertical,
   Form,
   Footer,
-  LoadingContainer,
   Title,
   SaveButton,
-  Spinner,
 } from "./styles";
 
 type Props = {
@@ -24,10 +24,11 @@ type Props = {
   handleClickOutside: (event?: React.MouseEvent<HTMLButtonElement>) => void;
 };
 
-export const Component = ({ post, isUpdating, handleClickOutside }: Props) => {
-  const { state } = useContext(MainContext);
-  const { postNewPost, updatePost } = usePostsInfoApi();
-
+export const Component = ({
+  post,
+  isUpdating = false,
+  handleClickOutside,
+}: Props) => {
   const [form, setForm] = useState({
     id: isUpdating ? post?.id : -1,
     title: isUpdating ? post?.title : "",
@@ -36,6 +37,9 @@ export const Component = ({ post, isUpdating, handleClickOutside }: Props) => {
     long: isUpdating ? post?.long : "",
     image_url: isUpdating ? post?.image_url : "",
   });
+
+  const { state } = useContext(MainContext);
+  const { postNewPost, updatePost } = usePostsInfoApi();
 
   const handleSubmit = () => {
     isUpdating
@@ -60,14 +64,7 @@ export const Component = ({ post, isUpdating, handleClickOutside }: Props) => {
   return (
     <Container>
       <Content>
-        {state?.posts?.isLoading && (
-          <LoadingContainer>
-            <Spinner>
-              <div></div>
-              <div></div>
-            </Spinner>
-          </LoadingContainer>
-        )}
+        {state?.posts?.isLoading && <LoadingContainer />}
         <CloseButton onClick={handleClickOutside} />
         <Title>
           {isUpdating ? "Modify the post" : "Add a new post"}{" "}

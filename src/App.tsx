@@ -1,5 +1,5 @@
 import React from "react";
-import { Component as Dashboard } from "./components/Dashboard";
+import { Component as Dashboard } from "./pages/Dashboard";
 import { MainProvider } from "./hooks/index.reducer";
 import { Global } from "./styles";
 

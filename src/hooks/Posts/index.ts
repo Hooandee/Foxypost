@@ -1,7 +1,6 @@
 import { useCallback, useContext } from "react";
 
 import { MainContext } from "../index.reducer";
-
 import {
   errorFetchingPostsInfo,
   fetchingPostsInfo,

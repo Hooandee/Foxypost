@@ -92,9 +92,21 @@ export const Title = styled.h1`
   text-shadow: 5px 7px 15px #00000038;
 `;
 
+export const LastModification = styled.section`
+  text-align: right;
+  font-size: 1em;
+  margin-right: 2em;
+  margin-top: 10px;
+
+  time {
+    font-style: italic;
+  }
+`;
+
 export const Paragraph = styled.em`
   font-size: 2em;
   padding: 2em;
+  padding-top: 1em;
 `;
 
 export const Header = styled.section`

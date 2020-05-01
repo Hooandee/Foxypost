@@ -1,6 +1,11 @@
+import { format } from "date-fns";
 import React, { useContext, useEffect, useState } from "react";
-
 import GoogleMapReact from "google-map-react";
+
+import { LoadingContainer } from "../../../../components/LoadingContainer";
+import { Component as AlertWarning } from "./components/Alert";
+import usePostsInfoApi from "../../../../hooks/Posts";
+import { MainContext } from "../../../../hooks/index.reducer";
 
 import {
   Container,
@@ -8,6 +13,7 @@ import {
   CloseButton,
   DeleteButton,
   Header,
+  LastModification,
   MapContainer,
   Paragraph,
   Spikes,
@@ -15,25 +21,29 @@ import {
   Title,
 } from "./styles";
 
-import { Component as AlertWarning } from "./components/Alert";
-
-import usePostsInfoApi from "../../../../hooks/Posts";
-import { MainContext } from "../../../../hooks/index.reducer";
-
 type Props = {
   id: number;
   handleClickOutside: (event?: React.MouseEvent<HTMLButtonElement>) => void;
 };
 
 export const Component = ({ id, handleClickOutside }: Props) => {
+  const [alertIsShown, showAlert] = useState(false);
+  const [isLoadingData, setIsLoadingData] = useState(true);
   const { state } = useContext(MainContext);
   const { getPostDetails, deletePost } = usePostsInfoApi();
-  const [alertIsShown, showAlert] = useState(false);
 
   useEffect(() => {
-    //@ts-ignore
-    getPostDetails(id);
+    getPostDetails(id).then(() => setIsLoadingData(false));
   }, [id, getPostDetails]);
+
+  const {
+    content,
+    image_url,
+    lat,
+    long,
+    title,
+    updated_at,
+  } = state?.posts?.postDetails;
 
   return (
     <Container>
@@ -46,31 +56,39 @@ export const Component = ({ id, handleClickOutside }: Props) => {
             }
           />
         )}
+        {isLoadingData && <LoadingContainer />}
         <DeleteButton onClick={() => showAlert(true)} />
         <CloseButton onClick={handleClickOutside} />
         <div>
           <Header
             style={{
-              backgroundImage: `url(${state?.posts?.postDetails?.image_url})`,
+              backgroundImage: `url(${image_url})`,
             }}
           >
-            <Title>{state?.posts?.postDetails?.title}</Title>
+            <Title>{title}</Title>
           </Header>
           <Spikes />
         </div>
-
-        <Paragraph>{state?.posts?.postDetails?.content}</Paragraph>
+        <LastModification>
+          <em>Last Update: </em>
+          <time dateTime="DD-MM-YYYY">
+            {format(new Date(updated_at || "2020"), "dd/MM/yyyy")}
+          </time>
+        </LastModification>
+        <Paragraph>{content}</Paragraph>
 
         <div>
           <SpikesInversed />
           <MapContainer>
-            <GoogleMapReact
-              defaultCenter={{
-                lat: +state?.posts?.postDetails?.lat,
-                lng: +state?.posts?.postDetails?.long,
-              }}
-              defaultZoom={10}
-            />
+            {!isLoadingData && (
+              <GoogleMapReact
+                center={{
+                  lat: +lat,
+                  lng: +long,
+                }}
+                defaultZoom={10}
+              />
+            )}
           </MapContainer>
         </div>
       </Content>

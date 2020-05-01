@@ -1,4 +1,5 @@
 import React, { createContext, useReducer } from "react";
+
 import { PostsActions } from "./Posts/actions";
 import { postReducer, State as ReducerState } from "./Posts/reducer";
 
@@ -9,7 +10,15 @@ type InitialStateType = {
 export const initialState: InitialStateType = {
   posts: {
     allPosts: [],
-    postDetails: { title: "", content: "", image_url: "", lat: "", long: "" },
+    postDetails: {
+      id: -1,
+      title: "",
+      content: "",
+      image_url: "",
+      lat: "",
+      long: "",
+      updated_at: "",
+    },
     isLoading: false,
   },
 };

@@ -1,3 +1,4 @@
+// Generates all types for the actions dynamically.
 export type ActionMap<M extends { [index: string]: any }> = {
   [Key in keyof M]: M[Key] extends undefined
     ? {

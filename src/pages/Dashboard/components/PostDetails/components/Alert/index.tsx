@@ -6,6 +6,7 @@ type Props = {
   handleCancelClick: (event: React.MouseEvent<HTMLButtonElement>) => void;
   handleDeleteClick: (event: React.MouseEvent<HTMLButtonElement>) => void;
 };
+
 export const Component = ({ handleCancelClick, handleDeleteClick }: Props) => {
   return (
     <Container>

@@ -1,6 +1,6 @@
 import React from "react";
-
 import { useSpring } from "react-spring";
+
 import { Card, EditButton, Title, Overlay } from "./styles";
 
 type Props = {
@@ -29,7 +29,7 @@ export const Component = ({ imageUrl, onEditClickHandler, title }: Props) => {
       onMouseLeave={() => set({ xys: [0, 0, 1] })}
       onMouseDown={() => set({ xys: [0, 0, 0.95] })}
       style={{
-        transform: props.xys.interpolate(trans),
+        transform: props.xys.to(trans),
         backgroundImage: `url(${imageUrl})`,
       }}
     >

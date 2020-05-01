@@ -20,6 +20,8 @@ export enum Post {
   updatingPost = `postsActions/updatingPost`,
   updatingPostSuccess = `postsActions/updatingPostSuccess`,
   updatingPostFail = `postsActions/updatingPostFail`,
+
+  deselectPost = `postsActions/deselectPost`,
 }
 
 export type PostType = {
@@ -29,8 +31,8 @@ export type PostType = {
   lat: string;
   long: string;
   image_url: string;
-  created_at?: Date;
-  updated_at?: Date;
+  created_at?: string;
+  updated_at?: string;
 };
 
 type PostPayload = {
@@ -53,6 +55,8 @@ type PostPayload = {
   [Post.updatingPost]: undefined;
   [Post.updatingPostSuccess]: undefined;
   [Post.updatingPostFail]: string;
+
+  [Post.deselectPost]: undefined;
 };
 
 export type PostsActions = ActionMap<PostPayload>[keyof ActionMap<PostPayload>];
@@ -129,4 +133,8 @@ export const updatingPostFail = (
 ): { type: Post.updatingPostFail; payload: any } => ({
   payload: response,
   type: Post.updatingPostFail,
+});
+
+export const deselectPost = (): { type: Post.deselectPost } => ({
+  type: Post.deselectPost,
 });
