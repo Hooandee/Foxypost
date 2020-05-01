@@ -18,6 +18,8 @@ import {
   SaveButton,
 } from "./styles";
 
+import { MANAGE_POST_PAGE_OBJECT } from "./index.page.test";
+
 type Props = {
   post?: PostType;
   isUpdating: boolean;
@@ -66,7 +68,7 @@ export const Component = ({
       <Content>
         {state?.posts?.isLoading && <LoadingContainer />}
         <CloseButton onClick={handleClickOutside} />
-        <Title>
+        <Title data-testid={MANAGE_POST_PAGE_OBJECT.title}>
           {isUpdating ? "Modify the post" : "Add a new post"}{" "}
           <span role="img" aria-label="newspaper emoji">
             📰
@@ -79,28 +81,32 @@ export const Component = ({
           }}
         >
           <Fieldset>
-            <label htmlFor="title">Title</label>
+            <label htmlFor={MANAGE_POST_PAGE_OBJECT.titleInput}>Title</label>
             <input
-              name="title"
-              id="title"
+              name={MANAGE_POST_PAGE_OBJECT.titleInput}
+              id={MANAGE_POST_PAGE_OBJECT.titleInput}
               value={form.title}
               onChange={(event) => {
                 setForm({ ...form, title: event.target.value });
               }}
             ></input>
-            <label htmlFor="content">Content</label>
+            <label htmlFor={MANAGE_POST_PAGE_OBJECT.contentInput}>
+              Content
+            </label>
             <textarea
-              name="content"
-              id="content"
+              name={MANAGE_POST_PAGE_OBJECT.contentInput}
+              id={MANAGE_POST_PAGE_OBJECT.contentInput}
               value={form.content}
               onChange={(event) => {
                 setForm({ ...form, content: event.target.value });
               }}
             ></textarea>
-            <label htmlFor="image_url">Image Url</label>
+            <label htmlFor={MANAGE_POST_PAGE_OBJECT.imageUrlInput}>
+              Image Url
+            </label>
             <input
-              name="image_url"
-              id="image_url"
+              name={MANAGE_POST_PAGE_OBJECT.imageUrlInput}
+              id={MANAGE_POST_PAGE_OBJECT.imageUrlInput}
               value={form.image_url}
               onChange={(event) => {
                 setForm({ ...form, image_url: event.target.value });
@@ -109,15 +115,15 @@ export const Component = ({
           </Fieldset>
           <FieldsetVertical>
             <div>
-              <label htmlFor="lat">
+              <label htmlFor={MANAGE_POST_PAGE_OBJECT.latInput}>
                 lat{" "}
                 <span role="img" aria-label="globe emoji">
                   🌐
                 </span>
               </label>
               <input
-                name="latitude"
-                id="lat"
+                name={MANAGE_POST_PAGE_OBJECT.latInput}
+                id={MANAGE_POST_PAGE_OBJECT.latInput}
                 value={form.lat}
                 onChange={(event) => {
                   setForm({ ...form, lat: event.target.value });
@@ -125,15 +131,15 @@ export const Component = ({
               ></input>
             </div>
             <div>
-              <label htmlFor="long">
+              <label htmlFor={MANAGE_POST_PAGE_OBJECT.longInput}>
                 long{" "}
                 <span role="img" aria-label="globe emoji">
                   🌐
                 </span>
               </label>
               <input
-                name="longitude"
-                id="long"
+                name={MANAGE_POST_PAGE_OBJECT.longInput}
+                id={MANAGE_POST_PAGE_OBJECT.longInput}
                 value={form.long}
                 onChange={(event) => {
                   setForm({ ...form, long: event.target.value });
@@ -143,10 +149,14 @@ export const Component = ({
           </FieldsetVertical>
 
           <Footer>
-            <CancelButtonSmall onClick={handleClickOutside}>
+            <CancelButtonSmall
+              data-testid={MANAGE_POST_PAGE_OBJECT.cancelButton}
+              onClick={handleClickOutside}
+            >
               Cancel
             </CancelButtonSmall>
             <SaveButton
+              data-testid={MANAGE_POST_PAGE_OBJECT.acceptButton}
               disabled={
                 (form.title?.length || 0) <= 0 ||
                 (form.content?.length || 0) <= 0

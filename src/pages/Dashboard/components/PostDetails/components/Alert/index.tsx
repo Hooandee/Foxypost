@@ -2,6 +2,8 @@ import React from "react";
 
 import { CancelButton, Container, DeleteButton, Title } from "./styles";
 
+import { POST_DETAILS_DELETE_OVERLAY_PAGE_OBJECT } from "./index.page.test";
+
 type Props = {
   handleCancelClick: (event: React.MouseEvent<HTMLButtonElement>) => void;
   handleDeleteClick: (event: React.MouseEvent<HTMLButtonElement>) => void;
@@ -10,11 +12,23 @@ type Props = {
 export const Component = ({ handleCancelClick, handleDeleteClick }: Props) => {
   return (
     <Container>
-      <Title>Do you want to delete this post?</Title>
+      <Title data-testid={POST_DETAILS_DELETE_OVERLAY_PAGE_OBJECT.title}>
+        Do you want to delete this post?
+      </Title>
 
       <section>
-        <CancelButton onClick={handleCancelClick}>Cancel</CancelButton>
-        <DeleteButton onClick={handleDeleteClick}>Accept</DeleteButton>
+        <CancelButton
+          data-testid={POST_DETAILS_DELETE_OVERLAY_PAGE_OBJECT.cancelButton}
+          onClick={handleCancelClick}
+        >
+          Cancel
+        </CancelButton>
+        <DeleteButton
+          data-testid={POST_DETAILS_DELETE_OVERLAY_PAGE_OBJECT.deleteButton}
+          onClick={handleDeleteClick}
+        >
+          Accept
+        </DeleteButton>
       </section>
     </Container>
   );

@@ -3,13 +3,21 @@ import { useSpring } from "react-spring";
 
 import { Card, EditButton, Title, Overlay } from "./styles";
 
+import { POST_PAGE_OBJECT } from "./index.page.test";
+
 type Props = {
   imageUrl: string;
-  title: string;
+  id: number;
   onEditClickHandler: () => void;
+  title: string;
 };
 
-export const Component = ({ imageUrl, onEditClickHandler, title }: Props) => {
+export const Component = ({
+  id,
+  imageUrl,
+  onEditClickHandler,
+  title,
+}: Props) => {
   const calc = (x: number, y: number) => [
     -(y - 10) / 100,
     (x - 10) / 100,
@@ -23,8 +31,17 @@ export const Component = ({ imageUrl, onEditClickHandler, title }: Props) => {
     config: { mass: 5, tension: 350, friction: 40 },
   }));
 
+  const onInnerEditClickHandler = (
+    event: React.MouseEvent<HTMLButtonElement>
+  ) => {
+    event.preventDefault();
+    event.stopPropagation();
+    onEditClickHandler();
+  };
+
   return (
     <Card
+      data-testid={POST_PAGE_OBJECT.card(id)}
       onMouseMove={({ clientX: x, clientY: y }) => set({ xys: calc(x, y) })}
       onMouseLeave={() => set({ xys: [0, 0, 1] })}
       onMouseDown={() => set({ xys: [0, 0, 0.95] })}
@@ -34,11 +51,8 @@ export const Component = ({ imageUrl, onEditClickHandler, title }: Props) => {
       }}
     >
       <EditButton
-        onClick={(event) => {
-          event.preventDefault();
-          event.stopPropagation();
-          onEditClickHandler();
-        }}
+        data-testid={POST_PAGE_OBJECT.editButton(id)}
+        onClick={onInnerEditClickHandler}
       />
       <Overlay>
         <Title>{title}</Title>

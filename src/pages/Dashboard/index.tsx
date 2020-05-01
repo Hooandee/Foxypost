@@ -10,6 +10,8 @@ import usePostsInfoApi from "../../hooks/Posts";
 
 import { AddPost, Container, Grid, PostWrapper } from "./styles";
 
+import { DASHBOARD_PAGE_OBJECT } from "./index.page.test";
+
 export const Component = () => {
   const [selectedPostIndex, selectPost] = useState(-1);
   const [isUpdating, setIsUpdating] = useState(false);
@@ -24,52 +26,66 @@ export const Component = () => {
     getPostsInfo().then(() => setIsLoadingData(false));
   }, [getPostsInfo]);
 
+  const handlePostDetailsClickOutside = () => {
+    showDetails(false);
+    selectPost(-1);
+    dispatch(deselectPost());
+  };
+
+  const handleManagePostClickOutside = () => {
+    setManagePostDialog(false);
+    setIsUpdating(false);
+  };
+
+  const handlePostWrapperClick = (index: number) => {
+    selectPost(index);
+    showDetails(true);
+  };
+
+  const handlePostClick = (index: number) => {
+    selectPost(index);
+    setManagePostDialog(true);
+    setIsUpdating(true);
+  };
+
   const { allPosts } = state?.posts;
 
   return (
     <Container>
-      {isLoadingData && <LoadingContainer />}
-      {detailsAreShown && (
-        <PostDetails
-          id={allPosts[selectedPostIndex]?.id || selectedPostIndex}
-          handleClickOutside={() => {
-            showDetails(false);
-            selectPost(-1);
-            dispatch(deselectPost());
-          }}
-        />
-      )}
-      {managePostDialogIsShown && (
-        <ManagePost
-          isUpdating={isUpdating}
-          handleClickOutside={() => {
-            setManagePostDialog(false);
-            setIsUpdating(false);
-          }}
-          post={allPosts[selectedPostIndex]}
-        />
-      )}
-      <AddPost onClick={() => setManagePostDialog(!managePostDialogIsShown)}>
+      <>
+        {isLoadingData && <LoadingContainer />}
+        {detailsAreShown && (
+          <PostDetails
+            id={allPosts[selectedPostIndex]?.id || selectedPostIndex}
+            handleClickOutside={handlePostDetailsClickOutside}
+          />
+        )}
+        {managePostDialogIsShown && (
+          <ManagePost
+            isUpdating={isUpdating}
+            handleClickOutside={handleManagePostClickOutside}
+            post={allPosts[selectedPostIndex]}
+          />
+        )}
+      </>
+      <AddPost
+        data-testid={DASHBOARD_PAGE_OBJECT.addButton}
+        onClick={() => setManagePostDialog(!managePostDialogIsShown)}
+      >
         New Post
       </AddPost>
-      <Grid>
+      <Grid data-testid={DASHBOARD_PAGE_OBJECT.grid}>
         {allPosts.map((post, index) => (
           <PostWrapper
+            data-testid={DASHBOARD_PAGE_OBJECT.postWrapper(index)}
             key={`post-wrapper-${index}`}
-            onClick={() => {
-              selectPost(index);
-              showDetails(true);
-            }}
+            onClick={() => handlePostWrapperClick(index)}
           >
             <Post
-              key={`post-${index}`}
+              id={index}
               imageUrl={post.image_url}
               title={post.title}
-              onEditClickHandler={() => {
-                selectPost(index);
-                setManagePostDialog(true);
-                setIsUpdating(true);
-              }}
+              onEditClickHandler={() => handlePostClick(index)}
             />
           </PostWrapper>
         ))}

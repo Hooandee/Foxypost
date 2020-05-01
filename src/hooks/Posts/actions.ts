@@ -66,13 +66,13 @@ export const fetchingPostsInfo = (): { type: Post.fetchingPosts } => ({
 });
 export const successFetchingPostsInfo = (
   response: PostType[]
-): { type: Post.fetchingPostsSuccess; payload: any } => ({
+): { type: Post.fetchingPostsSuccess; payload: PostType[] } => ({
   payload: response,
   type: Post.fetchingPostsSuccess,
 });
 export const errorFetchingPostsInfo = (
   response: string
-): { type: Post.fetchingPostsFail; payload: any } => ({
+): { type: Post.fetchingPostsFail; payload: string } => ({
   payload: response,
   type: Post.fetchingPostsFail,
 });
@@ -82,13 +82,13 @@ export const fetchingPostDetails = (): { type: Post.fetchingPostDetails } => ({
 });
 export const successFetchingPostDetails = (
   response: PostType
-): { type: Post.fetchingPostDetailsSuccess; payload: any } => ({
+): { type: Post.fetchingPostDetailsSuccess; payload: PostType } => ({
   payload: response,
   type: Post.fetchingPostDetailsSuccess,
 });
 export const errorFetchingPostDetails = (
   response: string
-): { type: Post.fetchingPostDetailsFail; payload: any } => ({
+): { type: Post.fetchingPostDetailsFail; payload: string } => ({
   payload: response,
   type: Post.fetchingPostDetailsFail,
 });
@@ -98,13 +98,13 @@ export const postingNewPost = (): { type: Post.postingNewPost } => ({
 });
 export const postingNewPostSuccess = (
   response: PostType
-): { type: Post.postingNewPostSuccess; payload: any } => ({
+): { type: Post.postingNewPostSuccess; payload: PostType } => ({
   payload: response,
   type: Post.postingNewPostSuccess,
 });
 export const postingNewPostFail = (
   response: string
-): { type: Post.postingNewPostFail; payload: any } => ({
+): { type: Post.postingNewPostFail; payload: string } => ({
   payload: response,
   type: Post.postingNewPostFail,
 });
@@ -117,7 +117,7 @@ export const deletingPostSuccess = (): { type: Post.deletingPostSuccess } => ({
 });
 export const deletingPostFail = (
   response: string
-): { type: Post.deletingPostFail; payload: any } => ({
+): { type: Post.deletingPostFail; payload: string } => ({
   payload: response,
   type: Post.deletingPostFail,
 });
@@ -130,7 +130,7 @@ export const updatingPostSuccess = (): { type: Post.updatingPostSuccess } => ({
 });
 export const updatingPostFail = (
   response: string
-): { type: Post.updatingPostFail; payload: any } => ({
+): { type: Post.updatingPostFail; payload: string } => ({
   payload: response,
   type: Post.updatingPostFail,
 });

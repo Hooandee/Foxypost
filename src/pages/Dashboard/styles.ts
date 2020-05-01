@@ -25,7 +25,7 @@ export const PostWrapper = styled.div`
 
 export const AddPost = styled.button`
   width: 100px;
-  height: 40px;
+  min-height: 40px;
   align-self: flex-end;
   margin: 20px 30px;
   font-size: 1em;

@@ -21,6 +21,8 @@ import {
   Title,
 } from "./styles";
 
+import { POST_DETAILS_PAGE_OBJECT } from "./index.page.test";
+
 type Props = {
   id: number;
   handleClickOutside: (event?: React.MouseEvent<HTMLButtonElement>) => void;
@@ -57,29 +59,40 @@ export const Component = ({ id, handleClickOutside }: Props) => {
           />
         )}
         {isLoadingData && <LoadingContainer />}
-        <DeleteButton onClick={() => showAlert(true)} />
-        <CloseButton onClick={handleClickOutside} />
+        <DeleteButton
+          data-testid={POST_DETAILS_PAGE_OBJECT.deleteButton}
+          onClick={() => showAlert(true)}
+        />
+        <CloseButton
+          data-testid={POST_DETAILS_PAGE_OBJECT.closeButton}
+          onClick={handleClickOutside}
+        />
         <div>
           <Header
             style={{
               backgroundImage: `url(${image_url})`,
             }}
           >
-            <Title>{title}</Title>
+            <Title data-testid={POST_DETAILS_PAGE_OBJECT.title}>{title}</Title>
           </Header>
           <Spikes />
         </div>
         <LastModification>
           <em>Last Update: </em>
-          <time dateTime="DD-MM-YYYY">
+          <time
+            dateTime="DD-MM-YYYY"
+            data-testid={POST_DETAILS_PAGE_OBJECT.lastUpdate}
+          >
             {format(new Date(updated_at || "2020"), "dd/MM/yyyy")}
           </time>
         </LastModification>
-        <Paragraph>{content}</Paragraph>
+        <Paragraph data-testid={POST_DETAILS_PAGE_OBJECT.content}>
+          {content}
+        </Paragraph>
 
         <div>
           <SpikesInversed />
-          <MapContainer>
+          <MapContainer data-testid={POST_DETAILS_PAGE_OBJECT.mapContainer}>
             {!isLoadingData && (
               <GoogleMapReact
                 center={{
