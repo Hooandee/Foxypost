@@ -3,7 +3,7 @@ import { useSpring } from "react-spring";
 
 import { Card, EditButton, Title, Overlay } from "./styles";
 
-import { POST_PAGE_OBJECT } from "./index.page.test";
+import { POST_PAGE_OBJECT } from "./index.test.page";
 
 type Props = {
   imageUrl: string;
@@ -18,6 +18,8 @@ export const Component = ({
   onEditClickHandler,
   title,
 }: Props) => {
+
+  // Calculations for perspective wrapping:
   const calc = (x: number, y: number) => [
     -(y - 10) / 100,
     (x - 10) / 100,

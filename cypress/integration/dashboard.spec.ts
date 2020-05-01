@@ -1,10 +1,11 @@
 /// <reference types="Cypress" />
 
-import { DASHBOARD_PAGE_OBJECT } from "../../src/pages/Dashboard/index.page.test";
-import { MANAGE_POST_PAGE_OBJECT } from "../../src/pages/Dashboard/components/ManagePost/index.page.test";
-import { POST_DETAILS_PAGE_OBJECT } from "../../src/pages/Dashboard/components/PostDetails/index.page.test";
-import { POST_DETAILS_DELETE_OVERLAY_PAGE_OBJECT } from "../../src/pages/Dashboard/components/PostDetails/components/Alert/index.page.test";
+import { DASHBOARD_PAGE_OBJECT } from "../../src/pages/Dashboard/index.test.page";
+import { MANAGE_POST_PAGE_OBJECT } from "../../src/pages/Dashboard/components/ManagePost/index.test.page";
+import { POST_DETAILS_PAGE_OBJECT } from "../../src/pages/Dashboard/components/PostDetails/index.test.page";
+import { POST_DETAILS_DELETE_OVERLAY_PAGE_OBJECT } from "../../src/pages/Dashboard/components/PostDetails/components/Alert/index.test.page";
 
+// This suite is oriented to real E2E testing, so, in a real App, server should be a development one.
 describe("Dashboard main test", () => {
   const randomId = Math.floor(Math.random() * Math.random() * 1000);
   const MAX_RESPONSE_TIME = 2000; // For API perfomance testing.

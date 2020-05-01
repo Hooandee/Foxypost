@@ -2,7 +2,7 @@ import React from "react";
 
 import { CancelButton, Container, DeleteButton, Title } from "./styles";
 
-import { POST_DETAILS_DELETE_OVERLAY_PAGE_OBJECT } from "./index.page.test";
+import { POST_DETAILS_DELETE_OVERLAY_PAGE_OBJECT } from "./index.test.page";
 
 type Props = {
   handleCancelClick: (event: React.MouseEvent<HTMLButtonElement>) => void;

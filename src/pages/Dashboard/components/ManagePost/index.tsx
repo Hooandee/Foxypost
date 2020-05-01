@@ -18,7 +18,7 @@ import {
   SaveButton,
 } from "./styles";
 
-import { MANAGE_POST_PAGE_OBJECT } from "./index.page.test";
+import { MANAGE_POST_PAGE_OBJECT } from "./index.test.page";
 
 type Props = {
   post?: PostType;

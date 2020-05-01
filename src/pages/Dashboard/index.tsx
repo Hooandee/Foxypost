@@ -10,7 +10,7 @@ import usePostsInfoApi from "../../hooks/Posts";
 
 import { AddPost, Container, Grid, PostWrapper } from "./styles";
 
-import { DASHBOARD_PAGE_OBJECT } from "./index.page.test";
+import { DASHBOARD_PAGE_OBJECT } from "./index.test.page";
 
 export const Component = () => {
   const [selectedPostIndex, selectPost] = useState(-1);

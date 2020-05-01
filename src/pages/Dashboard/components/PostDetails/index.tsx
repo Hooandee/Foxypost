@@ -21,7 +21,7 @@ import {
   Title,
 } from "./styles";
 
-import { POST_DETAILS_PAGE_OBJECT } from "./index.page.test";
+import { POST_DETAILS_PAGE_OBJECT } from "./index.test.page";
 
 type Props = {
   id: number;

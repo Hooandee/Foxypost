@@ -23,6 +23,7 @@ export const initialState: InitialStateType = {
   },
 };
 
+// Adding functionality for many state domains.
 export const reducer = ({ posts }: InitialStateType, action: PostsActions) => ({
   posts: postReducer(posts, action),
 });
@@ -36,6 +37,8 @@ export const MainContext = createContext<{
 });
 
 export const MainProvider: React.FC = ({ children }) => {
+
+  // Provides a FLUX architecture by using the new Context and Reducer hooks.
   const [state, dispatch] = useReducer(reducer, initialState);
 
   return (
